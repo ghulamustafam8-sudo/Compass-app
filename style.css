@@ -1,0 +1,322 @@
+/* style.css
+   Advanced Compass — visual, responsive, accessible
+   Author: Ghulam Mustafa Siddiqui
+   Save as: style.css
+*/
+
+/* ========================
+   Root theme & variables
+   ======================== */
+:root{
+  --bg-900: #061223;
+  --bg-800: #07162a;
+  --bg-700: #0b2233;
+  --card: rgba(255,255,255,0.03);
+  --muted: #9fb6c6;
+  --surface: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  --accent: #06b6d4;
+  --accent-600: #0aa7c0;
+  --glass: rgba(255,255,255,0.02);
+  --glass-2: rgba(255,255,255,0.03);
+  --text: #e6f6fb;
+  --shadow: 0 10px 30px rgba(0,0,0,0.6);
+  --success: #22c55e;
+  --danger: #f43f5e;
+  --glass-border: rgba(255,255,255,0.04);
+  --radius-lg: 18px;
+  --radius-md: 10px;
+  --radius-sm: 8px;
+  --max-width: 1100px;
+  --fz-base: 15px;
+  --fz-lg: 18px;
+  --transition-fast: 160ms;
+  --transition-mid: 280ms;
+}
+
+/* Dark/light theme hook (optional)
+   Add .light-theme on body to switch variables.
+*/
+body.light-theme {
+  --bg-900: #f6f8fb;
+  --bg-800: #ffffff;
+  --bg-700: #f2f6fa;
+  --card: rgba(8,12,16,0.03);
+  --muted: #55707a;
+  --accent: #0b718f;
+  --text: #071120;
+  --glass-border: rgba(0,0,0,0.06);
+  --shadow: 0 8px 18px rgba(2,6,23,0.06);
+}
+
+/* ========================
+   Base / Reset
+   ======================== */
+* { box-sizing: border-box; }
+html,body { height: 100%; }
+html { font-size: 16px; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+body{
+  margin:0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: radial-gradient(circle at 10% 10%, rgba(6,182,212,0.02), transparent 10%), linear-gradient(180deg, var(--bg-800) 0%, var(--bg-700) 100%);
+  color:var(--text);
+  line-height:1.35;
+  -webkit-tap-highlight-color: transparent;
+  padding-bottom:48px;
+}
+
+/* Utility containers */
+.container{
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 18px;
+}
+
+/* Accessibility helpers */
+.visually-hidden, .sr-only {
+  border:0!important;clip:rect(1px,1px,1px,1px);clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute!important;white-space:nowrap;width:1px;
+}
+
+/* ========================
+   Header
+   ======================== */
+.app-header{
+  padding:18px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.02);
+  backdrop-filter: blur(6px);
+  position:sticky;
+  top:0;
+  z-index:30;
+  background: linear-gradient(180deg, rgba(6,10,15,0.25), rgba(6,10,15,0.18));
+}
+.header-inner{ display:flex; align-items:center; gap:18px; justify-content:space-between; }
+.app-title{ font-size:1.05rem; margin:0; font-weight:700; letter-spacing:0.2px; }
+.app-subtitle{ margin:0; color:var(--muted); font-size:0.92rem; opacity:0.95; }
+
+/* Top controls */
+.top-controls{ display:flex; gap:10px; align-items:center; margin-left:auto; }
+.top-controls button{
+  background:transparent;
+  border:1px solid var(--glass-border);
+  color:var(--text);
+  padding:8px 12px;
+  border-radius:10px;
+  font-size:var(--fz-base);
+  cursor:pointer;
+  transition:all var(--transition-fast) ease;
+}
+.top-controls button:hover{ transform:translateY(-2px); box-shadow: var(--shadow); border-color: rgba(6,182,212,0.15); }
+.top-controls button:active{ transform:translateY(0); }
+.top-controls button[aria-pressed="true"]{ background: linear-gradient(180deg, rgba(6,182,212,0.08), rgba(6,182,212,0.03)); border-color: var(--accent-600); }
+
+/* ========================
+   Main layout
+   ======================== */
+main#main{ display:grid; grid-template-columns: 1fr 360px; gap:20px; padding-top:18px; align-items:start; }
+@media (max-width:1100px){ main#main{ grid-template-columns: 1fr; } }
+
+/* Card style */
+.compass-card, .card { background: var(--card); border-radius: var(--radius-lg); padding:16px; box-shadow: var(--shadow); border: 1px solid var(--glass-border); }
+
+/* Compass region */
+.compass-region{ display:block; }
+.compass-wrap{ display:flex; gap:18px; align-items:flex-start; justify-content:center; padding:12px; }
+
+/* Compass viewport (responsive) */
+.compass-viewport{
+  width: 520px;
+  max-width: 100%;
+  display:block;
+  border-radius: 14px;
+  padding: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+  border: 1px solid rgba(255,255,255,0.02);
+  box-shadow: 0 8px 30px rgba(2,6,23,0.45);
+  position:relative;
+  overflow:hidden;
+}
+@media (max-width:720px){ .compass-viewport{ width: 360px; } }
+
+
+/* tick lines (the JS populates lines; style them here) */
+#compass-svg line{
+  stroke: rgba(159,207,220,0.95);
+  stroke-linecap:round;
+  opacity: 0.85;
+  transition: stroke-width 120ms ease;
+}
+#compass-svg g[id="ticks"] line[stroke-width="3"]{ opacity:1; }
+
+/* cardinals */
+#cardinals text{ fill: var(--text); opacity:0.96; font-weight:800; text-shadow: 0 2px 12px rgba(6,182,212,0.04); }
+
+/* Needle styling */
+#needle-group .needle-red{ fill: var(--accent); filter: url(#f-shadow); }
+#needle-group .needle-white{ fill: rgba(255,255,255,0.92); }
+#needle-group .needle-tail{ fill: rgba(255,255,255,0.06); }
+#needle-group .pivot{ fill: rgba(255,255,255,0.95); stroke: rgba(6,182,212,0.12); stroke-width:1; }
+
+/* center labels */
+.heading-num{ font-size:32px; font-weight:700; fill:var(--text); letter-spacing:0.6px; }
+.heading-dir{ font-size:14px; fill:var(--muted); }
+
+/* compass fallback panel */
+.compass-fallback{ margin-top:12px; color:var(--muted); font-size:13px; text-align:center; }
+
+/* ========================
+   Info & readouts
+   ======================== */
+.compass-info{ margin-top:14px; display:flex; flex-direction:column; gap:12px; }
+.info-row{ display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted); }
+#permission-indicator{ color:var(--accent); font-size:12px; transform:translateY(1px); }
+
+/* Readouts list */
+.readouts{ display:grid; grid-template-columns: repeat(2,1fr); gap:8px; }
+.readouts dt{ font-size:12px; color:var(--muted); margin:0; }
+.readouts dd{ margin:0; font-weight:700; font-size:16px; color:var(--text); }
+
+/* controls inline */
+.controls-inline{ display:flex; gap:8px; align-items:center; margin-top:6px; flex-wrap:wrap; }
+.controls-inline input[type="number"]{
+  width:110px; padding:8px 10px; border-radius:8px; border:1px solid var(--glass-border); background:transparent; color:var(--text);
+  font-size:14px;
+}
+.controls-inline input[type="number"]::placeholder{ color:rgba(159,207,220,0.5); }
+.controls-inline button{ padding:8px 12px; border-radius:8px; border:1px solid var(--glass-border); background:linear-gradient(180deg, rgba(6,182,212,0.06), rgba(6,182,212,0.02)); cursor:pointer; color:var(--text); }
+
+/* Toggle switch */
+.switch{ display:inline-flex; align-items:center; gap:8px; cursor:pointer; user-select:none; }
+.switch input{ display:none; }
+.switch .switch-label{ font-size:13px; color:var(--muted); }
+.switch input + .switch-label::before{
+  content:""; display:inline-block; width:44px; height:24px; background:rgba(255,255,255,0.03); border-radius:16px; margin-right:8px; vertical-align:middle; position:relative; transition:all var(--transition-fast);
+  border:1px solid var(--glass-border);
+}
+.switch input + .switch-label::after{
+  content:""; width:18px; height:18px; background:#fff; border-radius:50%; position:absolute; left:6px; top:3px; transition:all var(--transition-fast); box-shadow:0 3px 8px rgba(2,6,23,0.24);
+}
+.switch input:checked + .switch-label::before{ background:linear-gradient(90deg,var(--accent),var(--accent-600)); border-color: rgba(6,182,212,0.18); }
+.switch input:checked + .switch-label::after{ left:20px; background:#fff; }
+
+/* ========================
+   History & logs (sidebar)
+   ======================== */
+.history-region{ margin-top:8px; }
+.log-list{
+  margin:8px 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px; max-height:360px; overflow:auto;
+}
+.log-list li{
+  display:flex; align-items:center; gap:10px; padding:10px; border-radius:10px; border:1px solid var(--glass-border);
+  background: linear-gradient(180deg, rgba(255,255,255,0.006), transparent);
+  cursor:pointer;
+  transition: transform var(--transition-fast) ease, box-shadow var(--transition-fast) ease;
+}
+.log-list li:hover{ transform:translateY(-4px); box-shadow: 0 12px 30px rgba(2,6,23,0.45); }
+.log-list li .log-time{ color:var(--muted); font-size:12px; min-width:90px; }
+.log-list li .log-heading{ font-weight:700; }
+
+/* history actions */
+.history-actions{ display:flex; gap:8px; margin-top:6px; }
+.history-actions button{ padding:8px 12px; border-radius:8px; border:1px solid var(--glass-border); background:transparent; cursor:pointer; }
+
+/* ========================
+   Extras grid
+   ======================== */
+.extras-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap:10px; margin-top:12px; }
+@media (max-width:900px){ .extras-grid{ grid-template-columns: repeat(2,1fr); } }
+@media (max-width:620px){ .extras-grid{ grid-template-columns: 1fr; } }
+
+.card.small{ padding:12px; border-radius:10px; }
+
+/* ========================
+   Dialogs (settings/help)
+   ======================== */
+dialog{
+  border:none;
+  border-radius:12px;
+  padding:18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+  box-shadow: 0 20px 60px rgba(2,6,23,0.6);
+  color:var(--text);
+}
+dialog::backdrop{ background: linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,6,23,0.75)); backdrop-filter: blur(4px); }
+
+/* form elements in dialog */
+#settings-form label{ display:block; margin:10px 0; color:var(--muted); font-size:13px; }
+#settings-form input[type="range"]{ width:100%; }
+#settings-form input[type="number"]{ width:120px; padding:8px; border-radius:8px; border:1px solid var(--glass-border); background:transparent; color:var(--text); }
+
+/* ========================
+   Footer
+   ======================== */
+.app-footer{ margin-top:28px; padding:12px 0; color:var(--muted); text-align:center; }
+
+/* ========================
+   Focus states & accessibility
+   ======================== */
+:focus{ outline: none; }
+button:focus, input:focus, [role="button"]:focus{ box-shadow: 0 0 0 4px rgba(6,182,212,0.12); border-color: rgba(6,182,212,0.2); }
+
+/* prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce){
+  *{ transition:none !important; animation:none !important; }
+}
+
+/* ========================
+   Micro-interactions
+   ======================== */
+/* needle spin smoothing helper — JS will animate transform, but these classes improve look */
+.rotate-smooth{ transition: transform 180ms cubic-bezier(.22,.9,.45,1); transform-origin:center; }
+
+/* subtle glow to accent areas */
+.accent-glow{ box-shadow: 0 8px 24px rgba(6,182,212,0.08), 0 2px 8px rgba(6,182,212,0.04); }
+
+/* glass card hover */
+.card:hover{ transform: translateY(-6px); transition: transform 220ms ease; }
+
+/* ========================
+   Print styles
+   ======================== */
+@media print{
+  body{ background:white; color:black; }
+  .compass-viewport, dialog, .app-footer, .top-controls{ display:none !important; }
+}
+
+/* ========================
+   High DPI tweaks
+   ======================== */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi){
+  #compass-svg line{ stroke-width: 1.5px; }
+  .heading-num{ font-size:34px; }
+}
+
+/* ========================
+   Small screens (mobile-first polish)
+   ======================== */
+@media (max-width:420px){
+  .header-inner{ flex-direction:column; align-items:flex-start; gap:10px; }
+  .top-controls{ width:100%; justify-content:space-between; }
+  .compass-viewport{ width:100%; padding:8px; border-radius:12px; }
+  main#main{ padding: 12px; }
+  .readouts{ grid-template-columns: 1fr; }
+  .controls-inline input[type="number"]{ width:110px; }
+  .extras-grid{ grid-template-columns:1fr; }
+}
+
+/* ========================
+   Small helpers for JS hooks
+   ======================== */
+/* when JS wants to indicate an error */
+.js-error{ border-color: var(--danger) !important; box-shadow: 0 6px 18px rgba(244,63,94,0.06); }
+
+/* when sensor available */
+.sensor-ready #permission-indicator{ color: var(--success); transform:scale(1.1); }
+
+/* when permission denied */
+.permission-denied #status-text{ color: var(--danger); }
+
+/* pinned log item */
+.log-pinned{ border-color: rgba(6,182,212,0.18); background: linear-gradient(180deg, rgba(6,182,212,0.03), transparent); }
+
+/* ========================
+   End of file
+   ======================== */
